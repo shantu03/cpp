@@ -1,0 +1,105 @@
+create database study;
+use study;
+
+create table customer(c_id int primary key auto_increment,c_name varchar(30),address varchar(30),city varchar(15),pincode varchar(10),country varchar(15));
+insert into customer(c_name,address,city,pincode,country) values ('Shantanu','Karve','Karad','415124','India');
+insert into customer(c_name,address,city,pincode,country) values ('Raviraj','Mangalveda','Sangola','413306','India');
+insert into customer(c_name,address,city,pincode,country) values ('Avishkar','LaxmiNagar','Sangola','413306','India');
+insert into customer(c_name,address,city,pincode,country) values ('Dnyaneshwar','Setewadi','Atpadi','415306','India');
+insert into customer(c_name,address,city,pincode,country) values ('Sanket','Sultangade','Khanapur','415306','India');
+insert into customer(c_name,address,city,pincode,country) values ('Mahesh','Balgavde','Tasgaon','415306','India');
+insert into customer(c_name,address,city,pincode,country) values ('Rajwardhan','Walwa','Walwa','416313','India');
+insert into customer(c_name,address,city,pincode,country) values ('Jonny','Pittsburgh','Pennsyvania','19147','America');
+insert into customer(c_name,address,city,pincode,country) values ('Justin','Ontario','London','K0G0A0','England');
+insert into customer(c_name,address,city,pincode,country) values ('Oda','Nerima','Tokyo','1760004','Japan');
+insert into customer(c_name,address,city,pincode,country) values ('Tom Holland','Kingston','London','K0G0A0','England');
+insert into customer(c_name ,address,city,pincode,country) values ('Sanket','Karve','Karad','415124','America');
+
+drop table customer;
+alter table customer add(rating int,table_no int);
+ 
+-- update customer set rating=(rand()*10) where c_id=1;
+-- update customer set rating=(rand()*10) where c_id=2;
+-- update customer set rating=(rand()*10) where c_id=3;
+-- update customer set rating=(rand()*10) where c_id=4;
+-- update customer set rating=(rand()*10) where c_id=5;
+-- update customer set rating=(rand()*10) where c_id=6;
+-- update customer set rating=(rand()*10) where c_id=7;
+-- update customer set rating=(rand()*10) where c_id=8;
+-- update customer set rating=(rand()*10) where c_id=9;
+-- update customer set rating=(rand()*10) where c_id=10;
+-- update customer set rating=(rand()*10) where c_id=12;
+-- update customer set rating=(rand(10)+3) where c_id=11;
+update customer set rating=(floor(1+rand()*10+1)) where c_id>=1;
+update customer set table_no =1 where c_id<=12;
+select * from customer order by rating desc;
+
+-- delete from customer where c_id=14;
+
+
+create table producer(c_id int primary key auto_increment,c_name varchar(30),address varchar(30),city varchar(15),pincode varchar(10),country varchar(15),rating int,check(rating<10));
+insert into producer(c_name,address,city,pincode,country) values ('RAMU','GANPATI PULE','MAHARASHTRA','413306','India');
+insert into producer(c_name,address,city,pincode,country) values ('Pappu','Jayshingpur ','Sangli','416101','India');
+insert into producer(c_name,address,city,pincode,country) values ('Mia','N/A ','Londan','416101','America');
+insert into producer(c_name,address,city,pincode,country) values ('Shivaji','tokyo ','tokyo','416101','Japan');
+insert into producer(c_name,address,city,pincode,country) values('Manji','karad','karad','415124','India');
+update producer set rating=(floor(1+rand()*10-1)) where c_id>=1; 
+
+alter table producer add(table_no int);
+update producer set table_no=2 where c_id>=1;
+select * from producer;
+
+-- PROBLEM NO. 3 
+-- numberic function
+select greatest(2,56,1,5,22,0);
+select log10(23);
+select log2(23);
+select least(2,5,2,1,5,64,56,23,1);
+select sin(55);
+select cos(55);
+select tan(55);
+select cot(55);
+select mod(55,6);
+select floor(5+rand()*(10-5));
+select floor(5+rand()*10-2);
+-- aggregate function
+select sum(rating) from customer; 
+select avg(rating) from customer; 
+select min(rating) from customer; 
+select max(rating) from customer; 
+select count(*) from customer;
+-- character fucntion
+select lower('Shsdfkls') from dual;
+select upper('sanket') from dual;
+
+
+-- PROBLEM NO. 4
+-- this is artithmatic operators
+select c_id,c_name,rating,rating + 50 as 'rating_of' from customer;
+select c_id + 100  as 'cusid',c_name,country,rating  from customer;
+select c_name,country,c_id,rating,c_id%rating as 'cid%rating' from customer;
+-- this is comparsion operators
+select c_id,c_name,rating from customer where rating<>10 ;	-- not equal to 
+select c_id,c_name,rating from customer where rating>=5 ;
+-- this is logical operators
+select c_id,c_name,rating from customer where c_id>=5 and rating>=5;
+select c_id,c_name,rating from customer where c_id>=5 or rating>=5;
+-- this is special operators
+select c_id,c_name,rating from customer where rating<=any(select rating from customer where c_id=6); -- ANY & AND OPERATOR 	
+select c_id,c_name,rating from customer where rating between 4 and 8; -- between operator
+select c_id,c_name,rating from customer where exists(select * from customer where rating =1); -- ek jr true aal tr run honar sagll
+select c_id,c_name,rating from customer where c_id in (3,4,5); -- in(madle return karnar)
+select c_id,c_name,rating from customer where c_name like 's%';		-- return starting with ?%
+select c_id,c_name,rating from customer where c_name like '%a';		-- return endign wiht %?
+-- SET OPERATIONS
+select table_no,c_name,rating from customer where rating >5 union select table_no,c_name,rating from producer where rating <5;
+
+
+-- PROBLEM NO 6 
+select c_id,c_name from customer group by city having city='karad';
+-- create unique index on producer (c_id,c_name,adress,city,pincode,country);
+
+
+-- VIEW 
+create view view_table as select c_id,c_name,country from customer;
+select * from view_table;
